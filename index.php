@@ -12,6 +12,8 @@ header('Content-Type: application/json');
 //require_once './class/Leads.php';
 require_once './class/User.php';
 require_once './class/Users.php';
+require_once './class/Leads.php';
+require_once './class/Mural.php';
 
 /**
  * POST
@@ -30,6 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         }
         http_response_code(200);
 
+    } elseif($_GET['url']=="dashinfo"){
+
     } else {
         http_response_code(400);
     }
@@ -39,15 +43,20 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
  * GETS
  */
 elseif ($_SERVER['REQUEST_METHOD'] == "GET") {
-    if($_GET['url']=='leads'){
-//        $ob = new Leads();
-//        if(isset($_GET['id'])){
-//            echo json_encode($ob->getOne($_GET['user'], $_GET['id']));
-//        } else {
-//            echo json_encode($ob->getAll($_GET['user']));
-//        }
-//        http_response_code(200);
-        
+    // Dashboard
+    if($_GET['url']=='dashinfo'){
+        $ob = new Leads();
+        echo json_encode($ob->getDashInfo($_GET['user']));
+        http_response_code(200);
+    // Mural    
+    }  elseif($_GET['url']=='mural'){
+        $ob = new Mural();
+        if(isset($_GET['user'])){
+            echo json_encode($ob->getMsg($_GET['user']));
+        } else {
+            echo json_encode($ob->getMuralUsers());
+        }
+        http_response_code(200);
     } else {
         http_response_code(400);
     }
@@ -60,6 +69,11 @@ elseif ($_SERVER['REQUEST_METHOD'] == "PUT") {
     $postBody = file_get_contents("php://input");
     $postBody = json_decode($postBody);   
     
+    // Mural
+    if($_GET['url']=='mural'){
+        $ob = new Mural();
+        echo json_encode($ob->sendMsg($postBody->origem, $postBody->destino, $postBody->assunto));
+    }
       
     //fim dos PUT
 }

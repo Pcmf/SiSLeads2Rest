@@ -12,7 +12,7 @@ class Leads {
     }
  
     /**
-     * 
+     * Description: Obter as informações necessárias para o dashboard do Gestor
      * @param type $user
      * @return array
      */
@@ -103,6 +103,7 @@ class Leads {
         $temp = $this->db->query("SELECT count(*) AS recusados FROM arq_leads WHERE user=:user  AND status IN(14,15,18,19,25) AND "
                 . " YEAR(datastatus)= YEAR(CURRENT_DATE) AND MONTH(datastatus)=MONTH(CURRENT_DATE) ", array(':user'=>$user));
         $resp['recusados'] = $temp[0]['recusados'];
+        
         return $resp;
     }
   

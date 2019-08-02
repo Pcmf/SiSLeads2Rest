@@ -8,3 +8,9 @@ Header always set Access-Control-Allow-Methods "PUT, GET, POST, DELETE, OPTIONS"
 
 #POST do LOGIN 
 RewriteRule ^login index.php?url=login [L,QSA]
+#Dashboard 
+RewriteRule ^dashinfo/([0-9/]+) index.php?url=dashinfo&user=$1 [L,QSA]
+#Mural
+
+RewriteRule ^mural/([0-9/]+) index.php?url=mural&user=$1 [L,QSA]
+RewriteRule ^mural index.php?url=mural [L,QSA]
